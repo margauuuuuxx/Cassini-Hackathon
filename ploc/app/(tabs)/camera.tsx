@@ -53,6 +53,14 @@ export default function CameraScreen() {
     <View style={styles.container}>
       {/* Header */}
       <View style={styles.header}>
+        {/* Close Triangle Button */}
+        <TouchableOpacity 
+          style={styles.closeTriangleButton}
+          onPress={() => router.back()}
+        >
+          <View style={styles.triangleDown} />
+        </TouchableOpacity>
+
         <Text style={styles.headerTitle}>PLOC!</Text>
         <TouchableOpacity style={styles.friendsButton}>
           <Ionicons name="people-outline" size={28} color="#000" />
@@ -151,6 +159,21 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: '600',
   },
+  closeTriangleButton: {
+    width: 44,
+    height: 44,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  triangleDown: {
+    width: 20,
+    height: 20,
+    borderLeftWidth: 2,
+    borderBottomWidth: 2,
+    borderLeftColor: '#000',
+    borderBottomColor: '#000',
+    transform: [{ rotate: '-45deg' }],
+  },
   header: {
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -164,7 +187,9 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: 'bold',
     color: '#000',
-    flex: 1,
+    position: 'absolute',
+    left: 0,
+    right: 0,
     textAlign: 'center',
   },
   friendsButton: {
