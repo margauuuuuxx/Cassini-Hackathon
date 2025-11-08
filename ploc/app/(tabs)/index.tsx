@@ -1,25 +1,22 @@
 import { StyleSheet, View, TouchableOpacity, Text, Dimensions, Image } from 'react-native';
-import MapView from 'react-native-maps';
+import MapView, { Marker } from 'react-native-maps';
 import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 
 const { width, height } = Dimensions.get('window');
 
 interface LocationPointProps {
-  x: number;
-  y: number;
+  coordinate: {
+    latitude: number;
+    longitude: number;
+  };
   count: number;
   imagePath: any;
 }
 
-const LocationPoint = ({ x, y, count, imagePath }: LocationPointProps) => {
+const LocationPoint = ({ coordinate, count, imagePath }: LocationPointProps) => {
   return (
-    <View 
-      style={[
-        styles.locationPointContainer,
-        { left: `${x}%`, top: `${y}%` }
-      ]}
-    >
+    <Marker coordinate={coordinate} anchor={{ x: 0.5, y: 1 }}>
       <View style={styles.locationBubbleWrapper}>
         <View style={styles.locationCard}>
           <Image 
@@ -43,7 +40,7 @@ const LocationPoint = ({ x, y, count, imagePath }: LocationPointProps) => {
           ]} 
         />
       </View>
-    </View>
+    </Marker>
   );
 };
 
@@ -51,11 +48,11 @@ export default function HomeScreen() {
   const router = useRouter();
   
   const locations = [
-    { x: 30, y: 25, count: 5, imagePath: { uri: 'file:///Users/margauxloncour/Desktop/Cassini-Hackathon/images/image1.JPG' } },
-    { x: 55, y: 40, count: 3, imagePath: { uri: 'file:///Users/margauxloncour/Desktop/Cassini-Hackathon/images/image1.jpg' } },
-    { x: 45, y: 55, count: 8, imagePath: { uri: 'file:///Users/margauxloncour/Desktop/Cassini-Hackathon/images/image1.jpg' } },
-    { x: 70, y: 70, count: 2, imagePath: { uri: 'file:///Users/margauxloncour/Desktop/Cassini-Hackathon/images/image2.jpg' } },
-    { x: 25, y: 75, count: 4, imagePath: { uri: 'file:///Users/margauxloncour/Desktop/Cassini-Hackathon/images/image2.jpg' } },
+    { coordinate: { latitude: 50.8450, longitude: 4.3600 }, count: 5, imagePath: { uri: 'file:///Users/margauxloncour/Desktop/Cassini-Hackathon/images/image1.JPG' } },
+    { coordinate: { latitude: 50.8400, longitude: 4.3700 }, count: 3, imagePath: { uri: 'file:///Users/margauxloncour/Desktop/Cassini-Hackathon/images/image1.jpg' } },
+    { coordinate: { latitude: 50.8350, longitude: 4.3650 }, count: 8, imagePath: { uri: 'file:///Users/margauxloncour/Desktop/Cassini-Hackathon/images/image1.jpg' } },
+    { coordinate: { latitude: 50.8500, longitude: 4.3750 }, count: 2, imagePath: { uri: 'file:///Users/margauxloncour/Desktop/Cassini-Hackathon/images/image2.jpg' } },
+    { coordinate: { latitude: 50.8300, longitude: 4.3550 }, count: 4, imagePath: { uri: 'file:///Users/margauxloncour/Desktop/Cassini-Hackathon/images/image2.jpg' } },
   ];
 
   return (
@@ -92,12 +89,20 @@ export default function HomeScreen() {
             latitudeDelta: 0.03,
             longitudeDelta: 0.03,
           }}
-        />
-
-        {/* Location Points */}
-        {locations.map((loc, idx) => (
-          <LocationPoint key={idx} {...loc} />
-        ))}
+          zoomEnabled={true}
+          scrollEnabled={true}
+          pitchEnabled={true}
+          rotateEnabled={true}
+          showsUserLocation={true}
+          showsMyLocationButton={true}
+          zoomControlEnabled={true}
+          scrollWheelZoom={true}
+        >
+          {/* Location Points */}
+          {locations.map((loc, idx) => (
+            <LocationPoint key={idx} {...loc} />
+          ))}
+        </MapView>
 
         {/* Floating friends button */}
         <TouchableOpacity 
@@ -175,11 +180,6 @@ const styles = StyleSheet.create({
   map: {
     width: width,
     height: '100%',
-  },
-  locationPointContainer: {
-    position: 'absolute',
-    zIndex: 10,
-    transform: [{ translateX: -40 }, { translateY: -56 }],
   },
   locationBubbleWrapper: {
     alignItems: 'center',
