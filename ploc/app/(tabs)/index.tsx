@@ -1,4 +1,4 @@
-import { StyleSheet, View, TouchableOpacity, Text, Dimensions } from 'react-native';
+import { StyleSheet, View, TouchableOpacity, Text, Dimensions, Image } from 'react-native';
 import MapView from 'react-native-maps';
 import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
@@ -9,11 +9,10 @@ interface LocationPointProps {
   x: number;
   y: number;
   count: number;
+  imagePath: any;
 }
 
-const LocationPoint = ({ x, y, count }: LocationPointProps) => {
-  const randomHue1 = Math.floor(Math.random() * 360);
-  
+const LocationPoint = ({ x, y, count, imagePath }: LocationPointProps) => {
   return (
     <View 
       style={[
@@ -21,20 +20,28 @@ const LocationPoint = ({ x, y, count }: LocationPointProps) => {
         { left: `${x}%`, top: `${y}%` }
       ]}
     >
-      <View style={styles.locationCard}>
+      <View style={styles.locationBubbleWrapper}>
+        <View style={styles.locationCard}>
+          <Image 
+            source={imagePath}
+            style={styles.backgroundImage}
+            blurRadius={8}
+          />
+          <View style={styles.darkOverlay} />
+          
+          <View style={styles.locationContent}>
+            <Ionicons name="lock-closed" size={18} color="white" />
+            <Text style={styles.locationText}>
+              {count} friends posted here
+            </Text>
+          </View>
+        </View>
         <View 
           style={[
-            styles.locationGradient,
-            { backgroundColor: `hsl(${randomHue1}, 70%, 50%)` }
+            styles.trianglePointer, 
+            { borderTopColor: 'rgba(150, 150, 150, 0.8)' }
           ]} 
         />
-        <View style={styles.locationOverlay} />
-        <View style={styles.locationContent}>
-          <Ionicons name="lock-closed" size={18} color="white" />
-          <Text style={styles.locationText}>
-            {count} friends posted here
-          </Text>
-        </View>
       </View>
     </View>
   );
@@ -44,11 +51,11 @@ export default function HomeScreen() {
   const router = useRouter();
   
   const locations = [
-    { x: 30, y: 25, count: 5 },
-    { x: 55, y: 40, count: 3 },
-    { x: 45, y: 55, count: 8 },
-    { x: 70, y: 70, count: 2 },
-    { x: 25, y: 75, count: 4 },
+    { x: 30, y: 25, count: 5, imagePath: { uri: 'file:///Users/margauxloncour/Desktop/Cassini-Hackathon/images/image1.JPG' } },
+    { x: 55, y: 40, count: 3, imagePath: { uri: 'file:///Users/margauxloncour/Desktop/Cassini-Hackathon/images/image1.jpg' } },
+    { x: 45, y: 55, count: 8, imagePath: { uri: 'file:///Users/margauxloncour/Desktop/Cassini-Hackathon/images/image1.jpg' } },
+    { x: 70, y: 70, count: 2, imagePath: { uri: 'file:///Users/margauxloncour/Desktop/Cassini-Hackathon/images/image2.jpg' } },
+    { x: 25, y: 75, count: 4, imagePath: { uri: 'file:///Users/margauxloncour/Desktop/Cassini-Hackathon/images/image2.jpg' } },
   ];
 
   return (
@@ -172,7 +179,10 @@ const styles = StyleSheet.create({
   locationPointContainer: {
     position: 'absolute',
     zIndex: 10,
-    transform: [{ translateX: -40 }, { translateY: -48 }],
+    transform: [{ translateX: -40 }, { translateY: -56 }],
+  },
+  locationBubbleWrapper: {
+    alignItems: 'center',
   },
   locationCard: {
     width: 80,
@@ -185,20 +195,34 @@ const styles = StyleSheet.create({
     shadowRadius: 8,
     elevation: 8,
   },
-  locationGradient: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
+  trianglePointer: {
+    width: 0,
+    height: 0,
+    backgroundColor: 'transparent',
+    borderStyle: 'solid',
+    borderLeftWidth: 8,
+    borderRightWidth: 8,
+    borderTopWidth: 10,
+    borderLeftColor: 'transparent',
+    borderRightColor: 'transparent',
+    marginTop: 0,
   },
-  locationOverlay: {
+  backgroundImage: {
     position: 'absolute',
     top: 0,
     left: 0,
     right: 0,
     bottom: 0,
-    backgroundColor: 'rgba(107, 114, 128, 0.6)',
+    width: '100%',
+    height: '100%',
+  },
+  darkOverlay: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    backgroundColor: 'rgba(0, 0, 0, 0.4)',
   },
   locationContent: {
     flex: 1,

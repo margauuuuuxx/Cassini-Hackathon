@@ -14,12 +14,13 @@ export default function TabLayout() {
         tabBarActiveTintColor: '#FF0000',
         tabBarInactiveTintColor: '#999999',
         tabBarStyle: {
-          backgroundColor: 'white',
+          backgroundColor: 'rgba(255, 255, 255, 0.85)',
           borderTopWidth: 1,
-          borderTopColor: '#E5E7EB',
+          borderTopColor: 'rgba(229, 231, 235, 0.5)',
           paddingBottom: 8,
           paddingTop: 8,
           height: 80,
+          position: 'absolute',
         },
         tabBarShowLabel: false,
       }}>
