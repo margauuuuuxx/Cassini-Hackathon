@@ -4,20 +4,33 @@ import { Lock, Menu, Map, List, User, Navigation } from 'lucide-react';
 const LocationPoint = ({ x, y, count, bg }) => (
   <div 
     className="absolute"
-    style={{ left: `${x}%`, top: `${y}%`, transform: 'translate(-50%, -50%)' }}
+    style={{ left: `${x}%`, top: `${y}%`, transform: 'translate(-50%, -100%)' }}
   >
-    <div className="relative w-20 h-24 rounded-3xl overflow-hidden shadow-lg">
-      <div 
-        className="absolute inset-0 bg-cover bg-center"
-        style={{ backgroundImage: `url(${bg})` }}
-      />
-      <div className="absolute inset-0 bg-gray-400 bg-opacity-70" />
-      <div className="absolute inset-0 flex flex-col items-center justify-center text-white">
-        <Lock size={20} className="mb-1" />
-        <div className="text-xs font-medium text-center px-2 leading-tight">
-          {count} friends posted here
+    {/* Location bubble container */}
+    <div className="relative">
+      {/* Rounded rectangle bubble */}
+      <div className="relative w-20 h-24 rounded-3xl overflow-hidden shadow-lg">
+        <div 
+          className="absolute inset-0 bg-cover bg-center"
+          style={{ backgroundImage: `url(${bg})` }}
+        />
+        <div className="absolute inset-0 bg-gray-400 bg-opacity-70" />
+        <div className="absolute inset-0 flex flex-col items-center justify-center text-white">
+          <Lock size={20} className="mb-1" />
+          <div className="text-xs font-medium text-center px-2 leading-tight">
+            {count} friends posted here
+          </div>
         </div>
       </div>
+      {/* Pointer/tail */}
+      <div 
+        className="absolute left-1/2 -bottom-2 w-0 h-0 -translate-x-1/2"
+        style={{
+          borderLeft: '8px solid transparent',
+          borderRight: '8px solid transparent',
+          borderTop: '10px solid rgba(156, 163, 175, 0.7)',
+        }}
+      />
     </div>
   </div>
 );
@@ -71,13 +84,16 @@ export default function MapInterface() {
       </div>
 
       {/* Map Area */}
-      <div className="flex-1 relative bg-gradient-to-br from-blue-50 via-gray-50 to-green-50">
-        {/* Real map background */}
+      <div className="flex-1 relative bg-gray-100">
+        {/* Simplified map background */}
         <iframe
           src="https://www.openstreetmap.org/export/embed.html?bbox=4.3450%2C50.8250%2C4.3950%2C50.8550&layer=mapnik"
           className="absolute inset-0 w-full h-full border-0"
-          style={{ filter: 'brightness(1.1) saturate(0.8)' }}
+          style={{ filter: 'brightness(1.15) saturate(0.5) contrast(0.85) opacity(0.7)' }}
         />
+        
+        {/* Subtle overlay for cleaner appearance */}
+        <div className="absolute inset-0 bg-white/20" />
 
         {/* Location Points */}
         {locations.map((loc, idx) => (
@@ -85,21 +101,14 @@ export default function MapInterface() {
         ))}
 
         {/* Floating menu button */}
-        <button className="absolute top-4 left-4 w-12 h-12 bg-white rounded-full shadow-lg flex items-center justify-center hover:bg-gray-50">
+        <button className="absolute top-4 left-4 w-12 h-12 bg-white rounded-full shadow-lg flex items-center justify-center hover:shadow-xl transition-shadow">
           <Menu size={24} className="text-gray-700" />
         </button>
 
-        {/* Apple Plans badge */}
-        <div className="absolute bottom-20 left-4 flex items-center gap-1 text-gray-600 text-sm font-medium">
-          <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/>
-          </svg>
-          <span>Plans</span>
-        </div>
-
         {/* Current location indicator */}
         <div className="absolute bottom-1/3 left-1/2 transform -translate-x-1/2">
-          <div className="w-4 h-4 bg-blue-500 rounded-full border-4 border-white shadow-lg" />
+          <div className="w-4 h-4 bg-blue-500 rounded-full border-4 border-white shadow-xl" />
+          <div className="absolute inset-0 w-4 h-4 bg-blue-400 rounded-full animate-ping opacity-75" />
         </div>
       </div>
 
