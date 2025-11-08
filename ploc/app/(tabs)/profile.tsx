@@ -52,6 +52,36 @@ export default function ProfileScreen() {
           ))}
         </View>
 
+        {/* Top Places Section */}
+        <View style={styles.section}>
+          <Text style={styles.sectionTitle}>Top Places</Text>
+          <View style={styles.activityCard}>
+            <View style={styles.activityRow}>
+              <View style={styles.activityIconContainer}>
+                <Ionicons name="flag" size={20} color="#F59E0B" />
+              </View>
+              <View style={styles.activityInfo}>
+                <Text style={styles.activityLabel}>Most visited</Text>
+                <Text style={styles.activityValue}>BeCentral, Brussels</Text>
+              </View>
+              <Ionicons name="chevron-forward" size={20} color="#CCC" />
+            </View>
+            
+            <View style={styles.dividerLine} />
+            
+            <View style={styles.activityRow}>
+              <View style={styles.activityIconContainer}>
+                <Ionicons name="heart" size={20} color="#EF4444" />
+              </View>
+              <View style={styles.activityInfo}>
+                <Text style={styles.activityLabel}>Favorite spot</Text>
+                <Text style={styles.activityValue}>Grand Place</Text>
+              </View>
+              <Ionicons name="chevron-forward" size={20} color="#CCC" />
+            </View>
+          </View>
+        </View>
+
         {/* Activity Section */}
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>Activity</Text>
