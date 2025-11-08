@@ -61,18 +61,25 @@ export default function ProfileScreen() {
             contentContainerStyle={styles.carouselContainer}
           >
             {[1, 2, 3, 4, 5].map((item, index) => (
-              <TouchableOpacity key={index} style={styles.placeCard}>
-                <Image 
-                  source={{ uri: `file:///Users/margauxloncour/Desktop/Cassini-Hackathon/images/image${item}.jpg` }}
-                  style={styles.placeImage}
-                  blurRadius={8}
-                />
-                <View style={styles.placeOverlay} />
-                <View style={styles.placeContent}>
-                  <Ionicons name="lock-closed" size={18} color="white" />
-                  <Text style={styles.placeText}>Place {item}</Text>
-                </View>
-              </TouchableOpacity>
+              <View key={index} style={styles.placeStack}>
+                {/* Back card */}
+                <View style={[styles.placeCard, styles.placeCardBack]} />
+                {/* Middle card */}
+                <View style={[styles.placeCard, styles.placeCardMiddle]} />
+                {/* Front card */}
+                <TouchableOpacity style={[styles.placeCard, styles.placeCardFront]}>
+                  <Image 
+                    source={{ uri: `file:///Users/margauxloncour/Desktop/Cassini-Hackathon/images/image${item}.jpg` }}
+                    style={styles.placeImage}
+                    blurRadius={8}
+                  />
+                  <View style={styles.placeOverlay} />
+                  <View style={styles.placeContent}>
+                    <Ionicons name="lock-closed" size={18} color="white" />
+                    <Text style={styles.placeText}>{3 + index} photos</Text>
+                  </View>
+                </TouchableOpacity>
+              </View>
             ))}
           </ScrollView>
         </View>
@@ -266,17 +273,39 @@ const styles = StyleSheet.create({
     paddingVertical: 12,
     gap: 12,
   },
+  placeStack: {
+    width: 80,
+    height: 96,
+    marginRight: 20,
+    position: 'relative',
+  },
   placeCard: {
     width: 80,
     height: 96,
     borderRadius: 24,
     overflow: 'hidden',
-    marginRight: 12,
+    backgroundColor: 'white',
+  },
+  placeCardBack: {
+    position: 'absolute',
+    transform: [{ translateX: -8 }, { translateY: -8 }, { rotate: '-5deg' }],
+    backgroundColor: '#E5E7EB',
+    zIndex: 1,
+  },
+  placeCardMiddle: {
+    position: 'absolute',
+    transform: [{ translateX: -4 }, { translateY: -4 }, { rotate: '-2deg' }],
+    backgroundColor: '#D1D5DB',
+    zIndex: 2,
+  },
+  placeCardFront: {
+    position: 'absolute',
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.3,
     shadowRadius: 8,
     elevation: 8,
+    zIndex: 3,
   },
   placeImage: {
     position: 'absolute',
