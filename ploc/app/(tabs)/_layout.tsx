@@ -54,6 +54,8 @@ export default function TabLayout() {
         name="camera"
         options={{
           title: 'Camera',
+          headerShown: false,
+          tabBarStyle: { display: 'none' },
           tabBarIcon: ({ color, focused }) => (
             <View style={{
               backgroundColor: '#333333',

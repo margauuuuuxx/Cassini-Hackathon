@@ -11,7 +11,6 @@ export default function CameraScreen() {
   const [facing, setFacing] = useState<CameraType>('back');
   const [permission, requestPermission] = useCameraPermissions();
   const [isRecording, setIsRecording] = useState(false);
-  const [mode, setMode] = useState<'photo' | 'video'>('photo');
   const cameraRef = useRef<CameraView>(null);
 
   if (!permission) {
@@ -50,107 +49,75 @@ export default function CameraScreen() {
     }
   }
 
-  async function toggleRecording() {
-    if (cameraRef.current) {
-      if (isRecording) {
-        cameraRef.current.stopRecording();
-        setIsRecording(false);
-      } else {
-        try {
-          setIsRecording(true);
-          const video = await cameraRef.current.recordAsync();
-          console.log('Video recorded:', video);
-          Alert.alert('Success', 'Video recorded!');
-          // TODO: Handle video (save, upload, etc.)
-        } catch (error) {
-          console.error('Error recording video:', error);
-          Alert.alert('Error', 'Failed to record video');
-        } finally {
-          setIsRecording(false);
-        }
-      }
-    }
-  }
-
-  function handleCapture() {
-    if (mode === 'photo') {
-      takePicture();
-    } else {
-      toggleRecording();
-    }
-  }
-
   return (
     <View style={styles.container}>
       {/* Header */}
       <View style={styles.header}>
-        <TouchableOpacity 
-          style={styles.headerButton}
-          onPress={() => router.back()}
-        >
-          <Ionicons name="chevron-down" size={32} color="white" />
+        <Text style={styles.headerTitle}>PLOC!</Text>
+        <TouchableOpacity style={styles.friendsButton}>
+          <Ionicons name="people-outline" size={28} color="#000" />
         </TouchableOpacity>
-        <Text style={styles.headerTitle}>Ploc!</Text>
-        <View style={styles.headerButton} />
       </View>
 
-      {/* Camera View */}
-      <CameraView 
-        style={styles.camera} 
-        facing={facing}
-        ref={cameraRef}
-      >
+      {/* Content Area */}
+      <View style={styles.content}>
+        {/* Location Section */}
+        <View style={styles.locationSection}>
+          <View style={styles.locationIcon}>
+            <Ionicons name="location-outline" size={28} color="white" />
+          </View>
+          <View>
+            <Text style={styles.locationLabel}>Location</Text>
+            <Text style={styles.locationText}>BeCentral, Bruxelles</Text>
+          </View>
+        </View>
+
+        {/* Camera View with Grid */}
+        <View style={styles.cameraContainer}>
+          <CameraView 
+            style={styles.camera} 
+            facing={facing}
+            ref={cameraRef}
+          >
+            {/* Grid Overlay */}
+            <View style={styles.gridOverlay}>
+              {/* Horizontal lines */}
+              <View style={[styles.gridLine, styles.gridLineHorizontal, { top: '33.33%' }]} />
+              <View style={[styles.gridLine, styles.gridLineHorizontal, { top: '66.66%' }]} />
+              {/* Vertical lines */}
+              <View style={[styles.gridLine, styles.gridLineVertical, { left: '33.33%' }]} />
+              <View style={[styles.gridLine, styles.gridLineVertical, { left: '66.66%' }]} />
+            </View>
+          </CameraView>
+        </View>
+
+        {/* Tap to ploc text */}
+        <Text style={styles.tapText}>Tap to ploc!</Text>
+
         {/* Bottom Controls */}
         <View style={styles.controls}>
           {/* Flash Toggle */}
           <TouchableOpacity style={styles.controlButton}>
-            <Ionicons name="flash-off" size={28} color="white" />
+            <Ionicons name="flash-off" size={32} color="white" />
           </TouchableOpacity>
 
-          {/* Speed/Zoom */}
-          <View style={styles.speedIndicator}>
-            <Text style={styles.speedText}>1x</Text>
-          </View>
+          {/* Capture Button */}
+          <TouchableOpacity 
+            style={styles.captureButton}
+            onPress={takePicture}
+          >
+            <View style={styles.captureButtonInner} />
+          </TouchableOpacity>
 
           {/* Flip Camera */}
           <TouchableOpacity 
             style={styles.controlButton}
             onPress={toggleCameraFacing}
           >
-            <Ionicons name="camera-reverse" size={28} color="white" />
+            <Ionicons name="camera-reverse" size={32} color="white" />
           </TouchableOpacity>
         </View>
-
-        {/* Mode Selector */}
-        <View style={styles.modeSelector}>
-          <TouchableOpacity onPress={() => setMode('video')}>
-            <Text style={[styles.modeText, mode === 'video' && styles.modeTextActive]}>
-              VIDEO
-            </Text>
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => setMode('photo')}>
-            <Text style={[styles.modeText, mode === 'photo' && styles.modeTextActive]}>
-              PHOTO
-            </Text>
-          </TouchableOpacity>
-        </View>
-
-        {/* Capture Button */}
-        <View style={styles.captureContainer}>
-          <TouchableOpacity 
-            style={[
-              styles.captureButton,
-              isRecording && styles.captureButtonRecording
-            ]}
-            onPress={handleCapture}
-          >
-            <View style={[
-              styles.captureButtonInner,
-              isRecording && styles.captureButtonInnerRecording
-            ]} />
-          </TouchableOpacity>
-        </View>
-      </CameraView>
+      </View>
     </View>
   );
 }
@@ -158,7 +125,7 @@ export default function CameraScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#000',
+    backgroundColor: '#fff',
   },
   permissionContainer: {
     flex: 1,
@@ -185,82 +152,109 @@ const styles = StyleSheet.create({
     fontWeight: '600',
   },
   header: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
     paddingTop: 60,
     paddingHorizontal: 20,
     paddingBottom: 20,
-    zIndex: 10,
-    backgroundColor: 'rgba(0, 0, 0, 0.3)',
-  },
-  headerButton: {
-    width: 40,
-    height: 40,
-    justifyContent: 'center',
-    alignItems: 'center',
+    backgroundColor: '#fff',
   },
   headerTitle: {
     fontSize: 24,
     fontWeight: 'bold',
+    color: '#000',
+    flex: 1,
+    textAlign: 'center',
+  },
+  friendsButton: {
+    width: 44,
+    height: 44,
+    justifyContent: 'center',
+    alignItems: 'center',
+    position: 'absolute',
+    right: 20,
+    top: 60,
+  },
+  content: {
+    flex: 1,
+    backgroundColor: '#2D2D2D',
+    paddingTop: 20,
+  },
+  locationSection: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: 20,
+    marginBottom: 20,
+    gap: 12,
+  },
+  locationIcon: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    backgroundColor: 'rgba(255, 255, 255, 0.2)',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  locationLabel: {
+    fontSize: 14,
+    color: 'rgba(255, 255, 255, 0.7)',
+    marginBottom: 2,
+  },
+  locationText: {
+    fontSize: 16,
     color: 'white',
+    fontWeight: '500',
+  },
+  cameraContainer: {
+    marginHorizontal: 20,
+    borderRadius: 24,
+    overflow: 'hidden',
+    aspectRatio: 3/4,
+    backgroundColor: '#000',
   },
   camera: {
     flex: 1,
   },
-  controls: {
+  gridOverlay: {
     position: 'absolute',
-    bottom: 200,
+    top: 0,
     left: 0,
     right: 0,
+    bottom: 0,
+  },
+  gridLine: {
+    position: 'absolute',
+    backgroundColor: 'rgba(255, 255, 255, 0.3)',
+  },
+  gridLineHorizontal: {
+    left: 0,
+    right: 0,
+    height: 1,
+  },
+  gridLineVertical: {
+    top: 0,
+    bottom: 0,
+    width: 1,
+  },
+  tapText: {
+    color: 'white',
+    fontSize: 16,
+    textAlign: 'center',
+    marginTop: 20,
+    marginBottom: 16,
+  },
+  controls: {
     flexDirection: 'row',
     justifyContent: 'space-around',
     alignItems: 'center',
     paddingHorizontal: 40,
+    paddingBottom: 40,
   },
   controlButton: {
     width: 50,
     height: 50,
     justifyContent: 'center',
-    alignItems: 'center',
-  },
-  speedIndicator: {
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
-    paddingHorizontal: 16,
-    paddingVertical: 8,
-    borderRadius: 20,
-  },
-  speedText: {
-    color: 'white',
-    fontSize: 16,
-    fontWeight: '600',
-  },
-  modeSelector: {
-    position: 'absolute',
-    bottom: 120,
-    left: 0,
-    right: 0,
-    flexDirection: 'row',
-    justifyContent: 'center',
-    gap: 40,
-  },
-  modeText: {
-    color: 'rgba(255, 255, 255, 0.5)',
-    fontSize: 14,
-    fontWeight: '600',
-  },
-  modeTextActive: {
-    color: '#FFD700',
-  },
-  captureContainer: {
-    position: 'absolute',
-    bottom: 40,
-    left: 0,
-    right: 0,
     alignItems: 'center',
   },
   captureButton: {
@@ -273,19 +267,10 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  captureButtonRecording: {
-    borderColor: '#FF3B30',
-  },
   captureButtonInner: {
     width: 68,
     height: 68,
     borderRadius: 34,
-    backgroundColor: 'white',
-  },
-  captureButtonInnerRecording: {
-    width: 30,
-    height: 30,
-    borderRadius: 4,
-    backgroundColor: '#FF3B30',
+    backgroundColor: '#6B5FC7',
   },
 });
