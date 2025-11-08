@@ -55,31 +55,26 @@ export default function ProfileScreen() {
         {/* Top Places Section */}
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>Top Places</Text>
-          <View style={styles.activityCard}>
-            <View style={styles.activityRow}>
-              <View style={styles.activityIconContainer}>
-                <Ionicons name="flag" size={20} color="#F59E0B" />
-              </View>
-              <View style={styles.activityInfo}>
-                <Text style={styles.activityLabel}>Most visited</Text>
-                <Text style={styles.activityValue}>BeCentral, Brussels</Text>
-              </View>
-              <Ionicons name="chevron-forward" size={20} color="#CCC" />
-            </View>
-            
-            <View style={styles.dividerLine} />
-            
-            <View style={styles.activityRow}>
-              <View style={styles.activityIconContainer}>
-                <Ionicons name="heart" size={20} color="#EF4444" />
-              </View>
-              <View style={styles.activityInfo}>
-                <Text style={styles.activityLabel}>Favorite spot</Text>
-                <Text style={styles.activityValue}>Grand Place</Text>
-              </View>
-              <Ionicons name="chevron-forward" size={20} color="#CCC" />
-            </View>
-          </View>
+          <ScrollView 
+            horizontal 
+            showsHorizontalScrollIndicator={false}
+            contentContainerStyle={styles.carouselContainer}
+          >
+            {[1, 2, 3, 4, 5].map((item, index) => (
+              <TouchableOpacity key={index} style={styles.placeCard}>
+                <Image 
+                  source={{ uri: `file:///Users/margauxloncour/Desktop/Cassini-Hackathon/images/image${item}.jpg` }}
+                  style={styles.placeImage}
+                  blurRadius={8}
+                />
+                <View style={styles.placeOverlay} />
+                <View style={styles.placeContent}>
+                  <Ionicons name="lock-closed" size={18} color="white" />
+                  <Text style={styles.placeText}>Place {item}</Text>
+                </View>
+              </TouchableOpacity>
+            ))}
+          </ScrollView>
         </View>
 
         {/* Activity Section */}
@@ -266,5 +261,54 @@ const styles = StyleSheet.create({
     height: 1,
     backgroundColor: '#F3F4F6',
     marginLeft: 64,
+  },
+  carouselContainer: {
+    paddingVertical: 12,
+    gap: 12,
+  },
+  placeCard: {
+    width: 80,
+    height: 96,
+    borderRadius: 24,
+    overflow: 'hidden',
+    marginRight: 12,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.3,
+    shadowRadius: 8,
+    elevation: 8,
+  },
+  placeImage: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    width: '100%',
+    height: '100%',
+  },
+  placeOverlay: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    backgroundColor: 'rgba(0, 0, 0, 0.4)',
+  },
+  placeContent: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    justifyContent: 'center',
+    alignItems: 'center',
+    gap: 4,
+  },
+  placeText: {
+    fontSize: 10,
+    fontWeight: '600',
+    color: 'white',
+    textAlign: 'center',
   },
 });
