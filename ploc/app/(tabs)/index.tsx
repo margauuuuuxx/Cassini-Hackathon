@@ -17,22 +17,31 @@ interface LocationPointProps {
 }
 
 const LocationPoint = ({ coordinate, count, imagePath }: LocationPointProps) => {
+  const stackCount = Math.min(count, 3); // Limit to max 3 stacked cards
+  
   return (
     <Marker coordinate={coordinate} anchor={{ x: 0.5, y: 1 }}>
       <View style={styles.locationBubbleWrapper}>
-        <View style={styles.locationCard}>
-          <Image 
-            source={imagePath}
-            style={styles.backgroundImage}
-            blurRadius={8}
-          />
-          <View style={styles.darkOverlay} />
-          
-          <View style={styles.locationContent}>
-            <Ionicons name="lock-closed" size={18} color="white" />
-            <Text style={styles.locationText}>
-              {count} friends posted here
-            </Text>
+        <View style={styles.locationStackContainer}>
+          {/* Back card */}
+          {stackCount >= 3 && <View style={[styles.locationCard, styles.locationCardBack]} />}
+          {/* Middle card */}
+          {stackCount >= 2 && <View style={[styles.locationCard, styles.locationCardMiddle]} />}
+          {/* Front card */}
+          <View style={[styles.locationCard, styles.locationCardFront]}>
+            <Image 
+              source={imagePath}
+              style={styles.backgroundImage}
+              blurRadius={8}
+            />
+            <View style={styles.darkOverlay} />
+            
+            <View style={styles.locationContent}>
+              <Ionicons name="lock-closed" size={18} color="white" />
+              <Text style={styles.locationText}>
+                {count} friends posted here
+              </Text>
+            </View>
           </View>
         </View>
         <View 
@@ -198,16 +207,38 @@ const styles = StyleSheet.create({
   locationBubbleWrapper: {
     alignItems: 'center',
   },
+  locationStackContainer: {
+    width: 80,
+    height: 96,
+    position: 'relative',
+  },
   locationCard: {
     width: 80,
     height: 96,
     borderRadius: 24,
     overflow: 'hidden',
+    backgroundColor: 'white',
+  },
+  locationCardBack: {
+    position: 'absolute',
+    transform: [{ translateX: -6 }, { translateY: -6 }, { rotate: '-4deg' }],
+    backgroundColor: '#E5E7EB',
+    zIndex: 1,
+  },
+  locationCardMiddle: {
+    position: 'absolute',
+    transform: [{ translateX: -3 }, { translateY: -3 }, { rotate: '-2deg' }],
+    backgroundColor: '#D1D5DB',
+    zIndex: 2,
+  },
+  locationCardFront: {
+    position: 'absolute',
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.3,
     shadowRadius: 8,
     elevation: 8,
+    zIndex: 3,
   },
   trianglePointer: {
     width: 0,
