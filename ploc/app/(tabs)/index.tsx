@@ -135,6 +135,16 @@ export default function HomeScreen() {
           <Ionicons name="people" size={24} color="#333" />
         </TouchableOpacity>
 
+        {/* Floating eco score button */}
+        <TouchableOpacity 
+          style={styles.ecoScoreButton}
+          onPress={() => router.push('/(tabs)/profile')}
+        >
+          <View style={styles.ecoScoreBadge}>
+            <Text style={styles.ecoScoreNumber}>92</Text>
+          </View>
+          <Ionicons name="leaf" size={18} color="#10B981" style={styles.ecoLeafIcon} />
+        </TouchableOpacity>
 
       </View>
     </View>
@@ -306,6 +316,45 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.2,
     shadowRadius: 4,
     elevation: 4,
+  },
+  ecoScoreButton: {
+    position: 'absolute',
+    top: 16,
+    right: 16,
+    width: 48,
+    height: 48,
+    borderRadius: 24,
+    backgroundColor: 'white',
+    justifyContent: 'center',
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 4,
+    elevation: 4,
+  },
+  ecoScoreBadge: {
+    width: 48,
+    height: 48,
+    borderRadius: 24,
+    backgroundColor: '#ECFDF5',
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderWidth: 2,
+    borderColor: '#10B981',
+  },
+  ecoScoreNumber: {
+    fontSize: 14,
+    fontWeight: '900',
+    color: '#10B981',
+  },
+  ecoLeafIcon: {
+    position: 'absolute',
+    bottom: -2,
+    right: -2,
+    backgroundColor: 'white',
+    borderRadius: 10,
+    padding: 2,
   },
 
 });

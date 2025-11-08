@@ -123,7 +123,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
   },
   text: {
-    fontSize: 28,
+    fontSize: 35,
     fontWeight: '600',
     color: 'white',
     letterSpacing: 1,

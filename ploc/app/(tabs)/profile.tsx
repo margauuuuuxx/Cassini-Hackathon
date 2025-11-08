@@ -94,6 +94,70 @@ export default function ProfileScreen() {
           </ScrollView>
         </View>
 
+        {/* Eco Score Section */}
+        <View style={styles.section}>
+          <View style={styles.ecoHeader}>
+            <Text style={styles.sectionTitle}>Eco Score</Text>
+            <View style={styles.ecoBadge}>
+              <Text style={styles.ecoBadgeText}>🌿 Green Explorer</Text>
+            </View>
+          </View>
+          
+          <View style={styles.ecoCard}>
+            {/* Main Score */}
+            <View style={styles.ecoScoreMain}>
+              <View style={styles.ecoScoreCircle}>
+                <Text style={styles.ecoScoreNumber}>92</Text>
+                <Text style={styles.ecoScoreLabel}>ECO SCORE</Text>
+              </View>
+              <View style={styles.ecoSummary}>
+                <Text style={styles.ecoSummaryTitle}>This Month</Text>
+                <Text style={styles.ecoSummaryText}>15.2 kg CO₂ saved</Text>
+                <Text style={styles.ecoSummarySubtext}>vs. average traveler</Text>
+              </View>
+            </View>
+
+            <View style={styles.ecoDivider} />
+
+            {/* Stats Grid */}
+            <View style={styles.ecoStatsGrid}>
+              <View style={styles.ecoStatItem}>
+                <Ionicons name="walk" size={24} color="#10B981" />
+                <Text style={styles.ecoStatValue}>42 km</Text>
+                <Text style={styles.ecoStatLabel}>By foot</Text>
+              </View>
+              
+              <View style={styles.ecoStatItem}>
+                <Ionicons name="bicycle" size={24} color="#10B981" />
+                <Text style={styles.ecoStatValue}>18 km</Text>
+                <Text style={styles.ecoStatLabel}>By bike</Text>
+              </View>
+              
+              <View style={styles.ecoStatItem}>
+                <Ionicons name="train" size={24} color="#3B82F6" />
+                <Text style={styles.ecoStatValue}>85 km</Text>
+                <Text style={styles.ecoStatLabel}>Public transit</Text>
+              </View>
+              
+              <View style={styles.ecoStatItem}>
+                <Ionicons name="car" size={24} color="#F59E0B" />
+                <Text style={styles.ecoStatValue}>12 km</Text>
+                <Text style={styles.ecoStatLabel}>By car</Text>
+              </View>
+            </View>
+
+            <View style={styles.ecoDivider} />
+
+            {/* Galileo Tracking Info */}
+            <View style={styles.ecoTrackingInfo}>
+              <Ionicons name="navigate-circle" size={20} color="#A855F7" />
+              <Text style={styles.ecoTrackingText}>
+                Tracked via Galileo satellite positioning
+              </Text>
+            </View>
+          </View>
+        </View>
+
         {/* Activity Section */}
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>Activity</Text>
@@ -363,5 +427,116 @@ const styles = StyleSheet.create({
     fontSize: 10,
     fontWeight: '700',
     color: 'white',
+  },
+  ecoHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 12,
+  },
+  ecoBadge: {
+    backgroundColor: '#ECFDF5',
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+    borderRadius: 16,
+  },
+  ecoBadgeText: {
+    fontSize: 12,
+    fontWeight: '600',
+    color: '#10B981',
+  },
+  ecoCard: {
+    backgroundColor: 'white',
+    borderRadius: 16,
+    padding: 20,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.05,
+    shadowRadius: 2,
+    elevation: 2,
+  },
+  ecoScoreMain: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 20,
+    marginBottom: 16,
+  },
+  ecoScoreCircle: {
+    width: 100,
+    height: 100,
+    borderRadius: 50,
+    backgroundColor: '#ECFDF5',
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderWidth: 4,
+    borderColor: '#10B981',
+  },
+  ecoScoreNumber: {
+    fontSize: 32,
+    fontWeight: '900',
+    color: '#10B981',
+  },
+  ecoScoreLabel: {
+    fontSize: 10,
+    fontWeight: '600',
+    color: '#059669',
+    marginTop: 2,
+  },
+  ecoSummary: {
+    flex: 1,
+  },
+  ecoSummaryTitle: {
+    fontSize: 14,
+    fontWeight: '600',
+    color: '#6B7280',
+    marginBottom: 4,
+  },
+  ecoSummaryText: {
+    fontSize: 20,
+    fontWeight: '700',
+    color: '#111827',
+    marginBottom: 2,
+  },
+  ecoSummarySubtext: {
+    fontSize: 12,
+    color: '#9CA3AF',
+  },
+  ecoDivider: {
+    height: 1,
+    backgroundColor: '#F3F4F6',
+    marginVertical: 16,
+  },
+  ecoStatsGrid: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginBottom: 16,
+  },
+  ecoStatItem: {
+    alignItems: 'center',
+    flex: 1,
+  },
+  ecoStatValue: {
+    fontSize: 16,
+    fontWeight: '700',
+    color: '#111827',
+    marginTop: 8,
+  },
+  ecoStatLabel: {
+    fontSize: 11,
+    color: '#6B7280',
+    marginTop: 2,
+    textAlign: 'center',
+  },
+  ecoTrackingInfo: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 8,
+    paddingVertical: 8,
+  },
+  ecoTrackingText: {
+    fontSize: 12,
+    color: '#A855F7',
+    fontWeight: '500',
   },
 });
