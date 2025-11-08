@@ -11,13 +11,14 @@ export default function SplashScreen() {
   const scaleEquals = useRef(new Animated.Value(0.5)).current;
   const fadePloc = useRef(new Animated.Value(0)).current;
 
+  // New animation value for sliding "="
+  const translateEquals = useRef(new Animated.Value(0)).current;
+
   useEffect(() => {
-    // Sequence: Show "Picture + Location" -> Show "=" -> Hide first text -> Show "PLOC"
     Animated.sequence([
-      // Show Picture + Location for 800ms
       Animated.delay(500),
-      
-      // Fade in "=" sign and scale it up
+
+      // Fade + scale in "="
       Animated.parallel([
         Animated.timing(fadeEquals, {
           toValue: 1,
@@ -30,12 +31,16 @@ export default function SplashScreen() {
           useNativeDriver: true,
         }),
       ]),
-      
-      // Wait a bit
+
       Animated.delay(300),
-      
-      // Fade out "Picture + Location" and fade in "PLOC"
+
+      // Sweep animation: "=" slides left & text fades out
       Animated.parallel([
+        Animated.timing(translateEquals, {
+          toValue: -180, // adjust if needed for text width
+          duration: 400,
+          useNativeDriver: true,
+        }),
         Animated.timing(fadeText1, {
           toValue: 0,
           duration: 400,
@@ -52,8 +57,7 @@ export default function SplashScreen() {
           useNativeDriver: true,
         }),
       ]),
-      
-      // Wait then navigate
+
       Animated.delay(600),
     ]).start(() => {
       router.replace('/(tabs)');
@@ -62,38 +66,46 @@ export default function SplashScreen() {
 
   return (
     <View style={styles.container}>
-      {/* Picture + Location */}
-      <Animated.View 
-        style={[
-          styles.textContainer,
-          { opacity: fadeText1 }
-        ]}
-      >
-        <Text style={styles.text}>Picture + Location</Text>
-      </Animated.View>
 
-      {/* = Sign */}
-      <Animated.View 
-        style={[
-          styles.equalsContainer,
-          { 
-            opacity: fadeEquals,
-            transform: [{ scale: scaleEquals }]
-          }
-        ]}
-      >
-        <Text style={styles.equals}>=</Text>
-      </Animated.View>
+      {/* Row containing "Picture + Location" and "=" */}
+      <View style={styles.row}>
+        <Animated.Text
+          style={[
+            styles.text,
+            { opacity: fadeText1 }
+          ]}
+        >
+          Picture + Location
+        </Animated.Text>
+
+        <Animated.Text
+          style={[
+            styles.equals,
+            {
+              opacity: fadeEquals,
+              transform: [
+                { scale: scaleEquals },
+                { translateX: translateEquals },
+              ],
+            },
+          ]}
+        >
+          =
+        </Animated.Text>
+      </View>
 
       {/* PLOC */}
-      <Animated.View 
+      <Animated.View
         style={[
           styles.plocContainer,
           { opacity: fadePloc }
         ]}
       >
-        <Text style={styles.ploc}>PLOC</Text>
+        <Text style={styles.ploc}>
+          =PLOC!
+        </Text>
       </Animated.View>
+
     </View>
   );
 }
@@ -101,11 +113,13 @@ export default function SplashScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#A855F7',
+    backgroundColor: '#666',
     justifyContent: 'center',
     alignItems: 'center',
   },
-  textContainer: {
+  row: {
+    flexDirection: 'row',
+    alignItems: 'center',
     position: 'absolute',
   },
   text: {
@@ -114,13 +128,11 @@ const styles = StyleSheet.create({
     color: 'white',
     letterSpacing: 1,
   },
-  equalsContainer: {
-    position: 'absolute',
-  },
   equals: {
     fontSize: 48,
     fontWeight: '700',
     color: 'white',
+    marginLeft: 8,
   },
   plocContainer: {
     position: 'absolute',
