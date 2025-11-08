@@ -75,8 +75,12 @@ export default function ProfileScreen() {
                   />
                   <View style={styles.placeOverlay} />
                   <View style={styles.placeContent}>
-                    <Ionicons name="lock-closed" size={18} color="white" />
-                    <Text style={styles.placeText}>{3 + index} photos</Text>
+                    <Text style={styles.placeLocationText}>
+                      {['BeCentral', 'Grand Place', 'Atomium', 'Park', 'Museum'][index]}
+                    </Text>
+                  </View>
+                  <View style={styles.photoCountBadge}>
+                    <Text style={styles.photoCountText}>{3 + index}</Text>
                   </View>
                 </TouchableOpacity>
               </View>
@@ -332,12 +336,26 @@ const styles = StyleSheet.create({
     bottom: 0,
     justifyContent: 'center',
     alignItems: 'center',
-    gap: 4,
   },
-  placeText: {
-    fontSize: 10,
-    fontWeight: '600',
+  placeLocationText: {
+    fontSize: 12,
+    fontWeight: '700',
     color: 'white',
     textAlign: 'center',
+    paddingHorizontal: 8,
+  },
+  photoCountBadge: {
+    position: 'absolute',
+    bottom: 8,
+    right: 8,
+    backgroundColor: 'rgba(0, 0, 0, 0.6)',
+    paddingHorizontal: 8,
+    paddingVertical: 4,
+    borderRadius: 12,
+  },
+  photoCountText: {
+    fontSize: 10,
+    fontWeight: '700',
+    color: 'white',
   },
 });
