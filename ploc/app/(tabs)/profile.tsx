@@ -60,27 +60,33 @@ export default function ProfileScreen() {
             showsHorizontalScrollIndicator={false}
             contentContainerStyle={styles.carouselContainer}
           >
-            {[1, 2, 3, 4, 5].map((item, index) => (
+            {[
+              { 
+                location: 'BeCentral', 
+                count: 3, 
+                image: 'file:///Users/margauxloncour/Desktop/Cassini-Hackathon/images/IMG_0521.jpg' 
+              }
+            ].map((place, index) => (
               <View key={index} style={styles.placeStack}>
                 {/* Back card */}
-                <View style={[styles.placeCard, styles.placeCardBack]} />
+                {place.count > 2 && <View style={[styles.placeCard, styles.placeCardBack]} />}
                 {/* Middle card */}
-                <View style={[styles.placeCard, styles.placeCardMiddle]} />
+                {place.count > 1 && <View style={[styles.placeCard, styles.placeCardMiddle]} />}
                 {/* Front card */}
                 <TouchableOpacity style={[styles.placeCard, styles.placeCardFront]}>
                   <Image 
-                    source={{ uri: `file:///Users/margauxloncour/Desktop/Cassini-Hackathon/images/image${item}.jpg` }}
+                    source={{ uri: place.image }}
                     style={styles.placeImage}
                     blurRadius={8}
                   />
                   <View style={styles.placeOverlay} />
                   <View style={styles.placeContent}>
                     <Text style={styles.placeLocationText}>
-                      {['BeCentral', 'Grand Place', 'Atomium', 'Park', 'Museum'][index]}
+                      {place.location}
                     </Text>
                   </View>
                   <View style={styles.photoCountBadge}>
-                    <Text style={styles.photoCountText}>{3 + index}</Text>
+                    <Text style={styles.photoCountText}>{place.count}</Text>
                   </View>
                 </TouchableOpacity>
               </View>
