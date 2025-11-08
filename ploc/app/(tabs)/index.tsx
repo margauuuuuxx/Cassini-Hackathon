@@ -119,7 +119,6 @@ export default function HomeScreen() {
           rotateEnabled={true}
           showsUserLocation={true}
           showsMyLocationButton={true}
-          followsUserLocation={true}
           showsCompass={true}
         >
           {/* Location Points */}
@@ -221,15 +220,25 @@ const styles = StyleSheet.create({
   },
   locationCardBack: {
     position: 'absolute',
-    transform: [{ translateX: -6 }, { translateY: -6 }, { rotate: '-4deg' }],
-    backgroundColor: '#E5E7EB',
+    transform: [{ translateX: -10 }, { translateY: -10 }, { rotate: '-8deg' }],
+    backgroundColor: '#9CA3AF',
     zIndex: 1,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 4,
+    elevation: 4,
   },
   locationCardMiddle: {
     position: 'absolute',
-    transform: [{ translateX: -3 }, { translateY: -3 }, { rotate: '-2deg' }],
-    backgroundColor: '#D1D5DB',
+    transform: [{ translateX: -5 }, { translateY: -5 }, { rotate: '-4deg' }],
+    backgroundColor: '#C4C9D1',
     zIndex: 2,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
   },
   locationCardFront: {
     position: 'absolute',
