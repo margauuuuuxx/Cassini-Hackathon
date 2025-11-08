@@ -19,22 +19,52 @@ export default function TabLayout() {
           borderTopColor: '#E5E7EB',
           paddingBottom: 8,
           paddingTop: 8,
-          height: 70,
+          height: 80,
         },
         tabBarShowLabel: false,
       }}>
-      {/* <Tabs.Screen
+      <Tabs.Screen
         name="explore"
         options={{
           title: 'List',
           tabBarIcon: ({ color }) => <Ionicons name="list" size={28} color={color} />,
         }}
-      /> */}
+      />
       <Tabs.Screen
         name="index"
         options={{
           title: 'Map',
           tabBarIcon: ({ color }) => <Ionicons name="map" size={32} color={color} />,
+        }}
+      />
+      <Tabs.Screen
+        name="camera"
+        options={{
+          title: 'Camera',
+          tabBarIcon: ({ color, focused }) => (
+            <View style={{
+              backgroundColor: '#FF0000',
+              width: 60,
+              height: 60,
+              borderRadius: 30,
+              justifyContent: 'center',
+              alignItems: 'center',
+              borderWidth: 4,
+              borderColor: 'white',
+              marginBottom: 30,
+              shadowColor: '#000',
+              shadowOffset: { width: 0, height: 2 },
+              shadowOpacity: 0.2,
+              shadowRadius: 4,
+              elevation: 5,
+            }}>
+              <Ionicons 
+                name="camera" 
+                size={32} 
+                color="white"
+              />
+            </View>
+          ),
         }}
       />
       <Tabs.Screen

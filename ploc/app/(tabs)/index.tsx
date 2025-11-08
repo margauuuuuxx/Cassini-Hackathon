@@ -1,6 +1,7 @@
 import { StyleSheet, View, TouchableOpacity, Text, Dimensions } from 'react-native';
 import MapView from 'react-native-maps';
 import { Ionicons } from '@expo/vector-icons';
+import { useRouter } from 'expo-router';
 
 const { width, height } = Dimensions.get('window');
 
@@ -40,6 +41,8 @@ const LocationPoint = ({ x, y, count }: LocationPointProps) => {
 };
 
 export default function HomeScreen() {
+  const router = useRouter();
+  
   const locations = [
     { x: 30, y: 25, count: 5 },
     { x: 55, y: 40, count: 3 },
@@ -89,9 +92,12 @@ export default function HomeScreen() {
           <LocationPoint key={idx} {...loc} />
         ))}
 
-        {/* Floating menu button */}
-        <TouchableOpacity style={styles.menuButton}>
-          <Ionicons name="menu" size={24} color="#333" />
+        {/* Floating friends button */}
+        <TouchableOpacity 
+          style={styles.menuButton}
+          onPress={() => router.push('/friends')}
+        >
+          <Ionicons name="people" size={24} color="#333" />
         </TouchableOpacity>
 
         {/* Current location indicator */}
