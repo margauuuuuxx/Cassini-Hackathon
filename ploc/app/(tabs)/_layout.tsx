@@ -11,7 +11,7 @@ export default function TabLayout() {
       screenOptions={{
         headerShown: false,
         tabBarButton: HapticTab,
-        tabBarActiveTintColor: '#FF0000',
+        tabBarActiveTintColor: '#666666',
         tabBarInactiveTintColor: '#999999',
         tabBarStyle: {
           backgroundColor: 'rgba(255, 255, 255, 0.85)',
@@ -22,20 +22,32 @@ export default function TabLayout() {
           height: 80,
           position: 'absolute',
         },
-        tabBarShowLabel: false,
+        tabBarShowLabel: true,
+        tabBarLabelStyle: {
+          fontSize: 12,
+          marginTop: 4,
+        },
       }}>
-      <Tabs.Screen
-        name="explore"
-        options={{
-          title: 'List',
-          tabBarIcon: ({ color }) => <Ionicons name="list" size={28} color={color} />,
-        }}
-      />
       <Tabs.Screen
         name="index"
         options={{
-          title: 'Map',
-          tabBarIcon: ({ color }) => <Ionicons name="map" size={32} color={color} />,
+          title: 'Home',
+          tabBarIcon: ({ color, focused }) => (
+            <View style={{
+              width: 44,
+              height: 44,
+              borderRadius: 12,
+              backgroundColor: focused ? '#f3f4f6' : 'transparent',
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}>
+              <Ionicons 
+                name="home-outline" 
+                size={24} 
+                color={focused ? '#333333' : '#888888'}
+              />
+            </View>
+          ),
         }}
       />
       <Tabs.Screen
@@ -44,10 +56,10 @@ export default function TabLayout() {
           title: 'Camera',
           tabBarIcon: ({ color, focused }) => (
             <View style={{
-              backgroundColor: '#FF0000',
-              width: 60,
-              height: 60,
-              borderRadius: 30,
+              backgroundColor: '#333333',
+              width: 80,
+              height: 80,
+              borderRadius: 40,
               justifyContent: 'center',
               alignItems: 'center',
               borderWidth: 4,
@@ -61,11 +73,12 @@ export default function TabLayout() {
             }}>
               <Ionicons 
                 name="camera" 
-                size={32} 
+                size={40} 
                 color="white"
               />
             </View>
           ),
+          tabBarLabel: () => null,
         }}
       />
       <Tabs.Screen
@@ -74,17 +87,17 @@ export default function TabLayout() {
           title: 'Profile',
           tabBarIcon: ({ color, focused }) => (
             <View style={{
-              backgroundColor: focused ? '#000' : '#ccc',
-              width: 40,
-              height: 40,
-              borderRadius: 20,
+              width: 44,
+              height: 44,
+              borderRadius: 12,
+              backgroundColor: focused ? '#f3f4f6' : 'transparent',
               justifyContent: 'center',
               alignItems: 'center',
             }}>
               <Ionicons 
-                name="person" 
+                name="person-outline" 
                 size={24} 
-                color="white"
+                color={focused ? '#333333' : '#888888'}
               />
             </View>
           ),
