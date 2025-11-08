@@ -62,11 +62,12 @@ export default function HomeScreen() {
   }, []);
   
   const locations = [
-    { coordinate: { latitude: 50.8450, longitude: 4.3600 }, count: 5, imagePath: { uri: 'file:///Users/margauxloncour/Desktop/Cassini-Hackathon/images/image1.JPG' } },
-    { coordinate: { latitude: 50.8400, longitude: 4.3700 }, count: 3, imagePath: { uri: 'file:///Users/margauxloncour/Desktop/Cassini-Hackathon/images/image1.jpg' } },
-    { coordinate: { latitude: 50.8350, longitude: 4.3650 }, count: 8, imagePath: { uri: 'file:///Users/margauxloncour/Desktop/Cassini-Hackathon/images/image1.jpg' } },
-    { coordinate: { latitude: 50.8500, longitude: 4.3750 }, count: 2, imagePath: { uri: 'file:///Users/margauxloncour/Desktop/Cassini-Hackathon/images/image2.jpg' } },
-    { coordinate: { latitude: 50.8300, longitude: 4.3550 }, count: 4, imagePath: { uri: 'file:///Users/margauxloncour/Desktop/Cassini-Hackathon/images/image2.jpg' } },
+    { coordinate: { latitude: 50.826869, longitude: 4.362878 }, count: 1, imagePath: require('../../assets/images/IMG_2958.jpg') },
+    { coordinate: { latitude: 50.847406, longitude: 4.369225 }, count: 1, imagePath: require('../../assets/images/IMG_4645.jpg') },
+    { coordinate: { latitude: 50.823094, longitude: 4.367133 }, count: 1, imagePath: require('../../assets/images/IMG_6685.jpg') },
+    { coordinate: { latitude: 50.841606, longitude: 4.388861 }, count: 1, imagePath: require('../../assets/images/IMG_7470.jpg') },
+    { coordinate: { latitude: 50.864397, longitude: 4.344731 }, count: 2, imagePath: require('../../assets/images/IMG_9163.jpg') },
+    { coordinate: { latitude: 50.825683, longitude: 4.359992 }, count: 1, imagePath: require('../../assets/images/IMG_9240.jpg') },
   ];
 
   return (
