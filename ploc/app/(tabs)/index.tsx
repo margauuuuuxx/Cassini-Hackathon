@@ -1,7 +1,9 @@
-import { StyleSheet, View, TouchableOpacity, Text, Dimensions, Image } from 'react-native';
+import { StyleSheet, View, TouchableOpacity, Text, Dimensions, Image, Alert } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
 import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
+import { useEffect, useState } from 'react';
+import * as Location from 'expo-location';
 
 const { width, height } = Dimensions.get('window');
 
@@ -46,6 +48,18 @@ const LocationPoint = ({ coordinate, count, imagePath }: LocationPointProps) => 
 
 export default function HomeScreen() {
   const router = useRouter();
+  const [hasLocationPermission, setHasLocationPermission] = useState(false);
+
+  useEffect(() => {
+    (async () => {
+      const { status } = await Location.requestForegroundPermissionsAsync();
+      if (status !== 'granted') {
+        Alert.alert('Permission Denied', 'Location permission is needed to show your position on the map');
+        return;
+      }
+      setHasLocationPermission(true);
+    })();
+  }, []);
   
   const locations = [
     { coordinate: { latitude: 50.8450, longitude: 4.3600 }, count: 5, imagePath: { uri: 'file:///Users/margauxloncour/Desktop/Cassini-Hackathon/images/image1.JPG' } },
@@ -95,8 +109,8 @@ export default function HomeScreen() {
           rotateEnabled={true}
           showsUserLocation={true}
           showsMyLocationButton={true}
-          zoomControlEnabled={true}
-          scrollWheelZoom={true}
+          followsUserLocation={true}
+          showsCompass={true}
         >
           {/* Location Points */}
           {locations.map((loc, idx) => (
@@ -112,8 +126,7 @@ export default function HomeScreen() {
           <Ionicons name="people" size={24} color="#333" />
         </TouchableOpacity>
 
-        {/* Current location indicator */}
-        <View style={styles.currentLocation} />
+
       </View>
     </View>
   );
@@ -253,20 +266,5 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
     elevation: 4,
   },
-  currentLocation: {
-    position: 'absolute',
-    bottom: height * 0.33,
-    left: width / 2 - 8,
-    width: 16,
-    height: 16,
-    backgroundColor: '#3B82F6',
-    borderRadius: 8,
-    borderWidth: 4,
-    borderColor: 'white',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.3,
-    shadowRadius: 4,
-    elevation: 4,
-  },
+
 });
