@@ -62,12 +62,12 @@ export default function HomeScreen() {
   }, []);
   
   const locations = [
-    { coordinate: { latitude: 50.826869, longitude: 4.362878 }, count: 1, imagePath: require('../../assets/images/IMG_2958.jpg') },
-    { coordinate: { latitude: 50.847406, longitude: 4.369225 }, count: 1, imagePath: require('../../assets/images/IMG_4645.jpg') },
-    { coordinate: { latitude: 50.823094, longitude: 4.367133 }, count: 1, imagePath: require('../../assets/images/IMG_6685.jpg') },
-    { coordinate: { latitude: 50.841606, longitude: 4.388861 }, count: 1, imagePath: require('../../assets/images/IMG_7470.jpg') },
-    { coordinate: { latitude: 50.864397, longitude: 4.344731 }, count: 2, imagePath: require('../../assets/images/IMG_9163.jpg') },
-    { coordinate: { latitude: 50.825683, longitude: 4.359992 }, count: 1, imagePath: require('../../assets/images/IMG_9240.jpg') },
+    { coordinate: { latitude: 50.826869, longitude: 4.362878 }, count: 1, imagePath: require('../../assets/images/samples/IMG_2958.jpg') },
+    { coordinate: { latitude: 50.847406, longitude: 4.369225 }, count: 1, imagePath: require('../../assets/images/samples/IMG_4645.jpg') },
+    { coordinate: { latitude: 50.823094, longitude: 4.367133 }, count: 1, imagePath: require('../../assets/images/samples/IMG_6685.jpg') },
+    { coordinate: { latitude: 50.841606, longitude: 4.388861 }, count: 1, imagePath: require('../../assets/images/samples/IMG_7470.jpg') },
+    { coordinate: { latitude: 50.864397, longitude: 4.344731 }, count: 2, imagePath: require('../../assets/images/samples/IMG_9163.jpg') },
+    { coordinate: { latitude: 50.825683, longitude: 4.359992 }, count: 1, imagePath: require('../../assets/images/samples/IMG_9240.jpg') },
   ];
 
   return (
