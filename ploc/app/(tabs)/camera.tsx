@@ -62,12 +62,12 @@ export default function CameraScreen() {
         </TouchableOpacity>
 
         {/* Title - Center */}
-        <Text style={styles.headerTitle}>PLOC!</Text>
+        <View style={styles.headerTitleContainer}>
+          <Text style={styles.headerTitle}>PLOC!</Text>
+        </View>
 
-        {/* Friends Button - Right */}
-        <TouchableOpacity style={styles.friendsButton}>
-          <Ionicons name="people-outline" size={28} color="#000" />
-        </TouchableOpacity>
+        {/* Spacer for layout balance - Right */}
+        <View style={styles.closeTriangleButton} />
       </View>
 
       {/* Content Area */}
@@ -186,16 +186,16 @@ const styles = StyleSheet.create({
     borderBottomColor: '#000',
     transform: [{ rotate: '-45deg' }],
   },
+  headerTitleContainer: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    height: 44,
+  },
   headerTitle: {
     fontSize: 24,
     fontWeight: 'bold',
     color: '#000',
-  },
-  friendsButton: {
-    width: 44,
-    height: 44,
-    justifyContent: 'center',
-    alignItems: 'center',
   },
   content: {
     flex: 1,
@@ -262,8 +262,8 @@ const styles = StyleSheet.create({
     color: 'white',
     fontSize: 16,
     textAlign: 'center',
-    marginTop: 20,
-    marginBottom: 16,
+    marginTop: 30,
+    marginBottom: 10,
   },
   controls: {
     flexDirection: 'row',
