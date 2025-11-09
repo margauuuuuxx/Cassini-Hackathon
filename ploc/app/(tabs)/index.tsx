@@ -17,22 +17,31 @@ interface LocationPointProps {
 }
 
 const LocationPoint = ({ coordinate, count, imagePath }: LocationPointProps) => {
+  const stackCount = Math.min(count, 3); // Limit to max 3 stacked cards
+  
   return (
     <Marker coordinate={coordinate} anchor={{ x: 0.5, y: 1 }}>
       <View style={styles.locationBubbleWrapper}>
-        <View style={styles.locationCard}>
-          <Image 
-            source={imagePath}
-            style={styles.backgroundImage}
-            blurRadius={8}
-          />
-          <View style={styles.darkOverlay} />
-          
-          <View style={styles.locationContent}>
-            <Ionicons name="lock-closed" size={18} color="white" />
-            <Text style={styles.locationText}>
-              {count} friends posted here
-            </Text>
+        <View style={styles.locationStackContainer}>
+          {/* Back card */}
+          {stackCount >= 3 && <View style={[styles.locationCard, styles.locationCardBack]} />}
+          {/* Middle card */}
+          {stackCount >= 2 && <View style={[styles.locationCard, styles.locationCardMiddle]} />}
+          {/* Front card */}
+          <View style={[styles.locationCard, styles.locationCardFront]}>
+            <Image 
+              source={imagePath}
+              style={styles.backgroundImage}
+              blurRadius={8}
+            />
+            <View style={styles.darkOverlay} />
+            
+            <View style={styles.locationContent}>
+              <Ionicons name="lock-closed" size={18} color="white" />
+              <Text style={styles.locationText}>
+                {count} friends posted here
+              </Text>
+            </View>
           </View>
         </View>
         <View 
@@ -62,11 +71,12 @@ export default function HomeScreen() {
   }, []);
   
   const locations = [
-    { coordinate: { latitude: 50.8450, longitude: 4.3600 }, count: 5, imagePath: { uri: 'file:///Users/margauxloncour/Desktop/Cassini-Hackathon/images/image1.JPG' } },
-    { coordinate: { latitude: 50.8400, longitude: 4.3700 }, count: 3, imagePath: { uri: 'file:///Users/margauxloncour/Desktop/Cassini-Hackathon/images/image1.jpg' } },
-    { coordinate: { latitude: 50.8350, longitude: 4.3650 }, count: 8, imagePath: { uri: 'file:///Users/margauxloncour/Desktop/Cassini-Hackathon/images/image1.jpg' } },
-    { coordinate: { latitude: 50.8500, longitude: 4.3750 }, count: 2, imagePath: { uri: 'file:///Users/margauxloncour/Desktop/Cassini-Hackathon/images/image2.jpg' } },
-    { coordinate: { latitude: 50.8300, longitude: 4.3550 }, count: 4, imagePath: { uri: 'file:///Users/margauxloncour/Desktop/Cassini-Hackathon/images/image2.jpg' } },
+    { coordinate: { latitude: 50.826869, longitude: 4.362878 }, count: 1, imagePath: require('../../assets/images/samples/IMG_2958.jpg') },
+    { coordinate: { latitude: 50.847406, longitude: 4.369225 }, count: 1, imagePath: require('../../assets/images/samples/IMG_4645.jpg') },
+    { coordinate: { latitude: 50.823094, longitude: 4.367133 }, count: 1, imagePath: require('../../assets/images/samples/IMG_6685.jpg') },
+    { coordinate: { latitude: 50.841606, longitude: 4.388861 }, count: 1, imagePath: require('../../assets/images/samples/IMG_7470.jpg') },
+    { coordinate: { latitude: 50.864397, longitude: 4.344731 }, count: 2, imagePath: require('../../assets/images/samples/IMG_9163.jpg') },
+    { coordinate: { latitude: 50.825683, longitude: 4.359992 }, count: 1, imagePath: require('../../assets/images/samples/IMG_9240.jpg') },
   ];
 
   return (
@@ -75,7 +85,10 @@ export default function HomeScreen() {
       <View style={styles.header}>
         <View style={styles.headerTop}>
           <View style={styles.profileSection}>
-            <View style={styles.avatar} />
+            <Image 
+              source={require('../../assets/images/profile_pic/profile.jpg')}
+              style={styles.avatar}
+            />
             <View>
               <Text style={styles.username}>@margauuuuux</Text>
               <Text style={styles.pictureCount}>42 pictures</Text>
@@ -109,7 +122,6 @@ export default function HomeScreen() {
           rotateEnabled={true}
           showsUserLocation={true}
           showsMyLocationButton={true}
-          followsUserLocation={true}
           showsCompass={true}
         >
           {/* Location Points */}
@@ -126,6 +138,16 @@ export default function HomeScreen() {
           <Ionicons name="people" size={24} color="#333" />
         </TouchableOpacity>
 
+        {/* Floating eco score button */}
+        <TouchableOpacity 
+          style={styles.ecoScoreButton}
+          onPress={() => router.push('/(tabs)/profile')}
+        >
+          <View style={styles.ecoScoreBadge}>
+            <Text style={styles.ecoScoreNumber}>92</Text>
+          </View>
+          <Ionicons name="leaf" size={18} color="#10B981" style={styles.ecoLeafIcon} />
+        </TouchableOpacity>
 
       </View>
     </View>
@@ -165,6 +187,7 @@ const styles = StyleSheet.create({
     height: 40,
     borderRadius: 20,
     backgroundColor: '#A855F7',
+    resizeMode: 'cover',
   },
   username: {
     fontSize: 16,
@@ -197,16 +220,48 @@ const styles = StyleSheet.create({
   locationBubbleWrapper: {
     alignItems: 'center',
   },
+  locationStackContainer: {
+    width: 80,
+    height: 96,
+    position: 'relative',
+  },
   locationCard: {
     width: 80,
     height: 96,
     borderRadius: 24,
     overflow: 'hidden',
+    backgroundColor: 'white',
+  },
+  locationCardBack: {
+    position: 'absolute',
+    transform: [{ translateX: -10 }, { translateY: -10 }, { rotate: '-8deg' }],
+    backgroundColor: '#9CA3AF',
+    zIndex: 1,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 4,
+    elevation: 4,
+  },
+  locationCardMiddle: {
+    position: 'absolute',
+    transform: [{ translateX: -5 }, { translateY: -5 }, { rotate: '-4deg' }],
+    backgroundColor: '#C4C9D1',
+    zIndex: 2,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+  locationCardFront: {
+    position: 'absolute',
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.3,
     shadowRadius: 8,
     elevation: 8,
+    zIndex: 3,
   },
   trianglePointer: {
     width: 0,
@@ -265,6 +320,45 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.2,
     shadowRadius: 4,
     elevation: 4,
+  },
+  ecoScoreButton: {
+    position: 'absolute',
+    top: 16,
+    right: 16,
+    width: 48,
+    height: 48,
+    borderRadius: 24,
+    backgroundColor: 'white',
+    justifyContent: 'center',
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 4,
+    elevation: 4,
+  },
+  ecoScoreBadge: {
+    width: 48,
+    height: 48,
+    borderRadius: 24,
+    backgroundColor: '#ECFDF5',
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderWidth: 2,
+    borderColor: '#10B981',
+  },
+  ecoScoreNumber: {
+    fontSize: 14,
+    fontWeight: '900',
+    color: '#10B981',
+  },
+  ecoLeafIcon: {
+    position: 'absolute',
+    bottom: -2,
+    right: -2,
+    backgroundColor: 'white',
+    borderRadius: 10,
+    padding: 2,
   },
 
 });

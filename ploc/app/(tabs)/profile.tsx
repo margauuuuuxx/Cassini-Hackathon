@@ -1,20 +1,57 @@
 import { StyleSheet, View, Text, ScrollView, TouchableOpacity, Image } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import { useRouter } from 'expo-router';
 
 export default function ProfileScreen() {
+  const router = useRouter();
+
   const stats = [
     { label: 'Pictures', value: '42' },
     { label: 'Friends', value: '156' },
     { label: 'Places', value: '28' },
   ];
 
-  const settings = [
-    { icon: 'person-outline', label: 'Edit Profile', color: '#A855F7' },
-    { icon: 'lock-closed-outline', label: 'Privacy', color: '#3B82F6' },
-    { icon: 'notifications-outline', label: 'Notifications', color: '#10B981' },
-    { icon: 'map-outline', label: 'Saved Places', color: '#F59E0B' },
-    { icon: 'shield-checkmark-outline', label: 'Security', color: '#EF4444' },
-    { icon: 'help-circle-outline', label: 'Help & Support', color: '#8B5CF6' },
+  const topPlaces = [
+    { 
+      location: 'Café Belga', 
+      count: 63, 
+      image: 'file:///Users/margauxloncour/Desktop/Cassini-Hackathon/images/IMG_0521.jpg' 
+    },
+    { 
+      location: 'BeCentral', 
+      count: 8, 
+      image: 'https://images.unsplash.com/photo-1559113202-c916b8e44373?w=400' 
+    },
+    { 
+      location: 'Atomium', 
+      count: 5, 
+      image: 'https://images.unsplash.com/photo-1583422409516-2895a77efded?w=400' 
+    },
+    { 
+      location: 'Manneken Pis', 
+      count: 4, 
+      image: 'https://images.unsplash.com/photo-1555604241-c6f0de5ddc0b?w=400' 
+    },
+    { 
+      location: 'Royal Palace', 
+      count: 6, 
+      image: 'https://images.unsplash.com/photo-1513581166391-887a96ddeafd?w=400' 
+    },
+    { 
+      location: 'Parc du Cinquantenaire', 
+      count: 7, 
+      image: 'https://images.unsplash.com/photo-1568218394632-c9e99a32d3fc?w=400' 
+    },
+    { 
+      location: 'Mont des Arts', 
+      count: 3, 
+      image: 'https://images.unsplash.com/photo-1543780508-638ccaff0e6e?w=400' 
+    },
+    { 
+      location: 'Sablon', 
+      count: 4, 
+      image: 'https://images.unsplash.com/photo-1499856871958-5b9627545d1a?w=400' 
+    },
   ];
 
   return (
@@ -22,7 +59,10 @@ export default function ProfileScreen() {
       {/* Header */}
       <View style={styles.header}>
         <Text style={styles.headerTitle}>Profile</Text>
-        <TouchableOpacity style={styles.settingsButton}>
+        <TouchableOpacity 
+          style={styles.settingsButton}
+          onPress={() => router.push('/settings')}
+        >
           <Ionicons name="settings-outline" size={24} color="#000" />
         </TouchableOpacity>
       </View>
@@ -31,7 +71,11 @@ export default function ProfileScreen() {
         {/* Profile Info */}
         <View style={styles.profileSection}>
           <View style={styles.avatarContainer}>
-            <View style={styles.avatar} />
+            <Image 
+              source={require('@/assets/images/profile_pic/profile.jpg')}
+              style={styles.avatar}
+              resizeMode="cover"
+            />
             <TouchableOpacity style={styles.editAvatarButton}>
               <Ionicons name="camera" size={18} color="#FFF" />
             </TouchableOpacity>
@@ -53,6 +97,111 @@ export default function ProfileScreen() {
               <Text style={styles.statLabel}>{stat.label}</Text>
             </View>
           ))}
+        </View>
+
+        {/* Top Places Section */}
+        <View style={styles.section}>
+          <View style={styles.sectionHeader}>
+            <Text style={styles.sectionTitle}>Top Places</Text>
+            <TouchableOpacity>
+              <Text style={styles.seeAllText}>See All</Text>
+            </TouchableOpacity>
+          </View>
+          <ScrollView 
+            horizontal 
+            showsHorizontalScrollIndicator={false}
+            contentContainerStyle={styles.carouselContainer}
+          >
+            {topPlaces.map((place, index) => (
+              <View key={index} style={styles.placeStack}>
+                {/* Back card */}
+                {place.count > 2 && <View style={[styles.placeCard, styles.placeCardBack]} />}
+                {/* Middle card */}
+                {place.count > 1 && <View style={[styles.placeCard, styles.placeCardMiddle]} />}
+                {/* Front card */}
+                <TouchableOpacity style={[styles.placeCard, styles.placeCardFront]}>
+                  <Image 
+                    source={{ uri: place.image }}
+                    style={styles.placeImage}
+                    blurRadius={8}
+                  />
+                  <View style={styles.placeOverlay} />
+                  <View style={styles.placeContent}>
+                    <Text style={styles.placeLocationText}>
+                      {place.location}
+                    </Text>
+                  </View>
+                  <View style={styles.photoCountBadge}>
+                    <Text style={styles.photoCountText}>{place.count}</Text>
+                  </View>
+                </TouchableOpacity>
+              </View>
+            ))}
+          </ScrollView>
+        </View>
+
+        {/* Eco Score Section */}
+        <View style={styles.section}>
+          <View style={styles.ecoHeader}>
+            <Text style={styles.sectionTitle}>Eco Score</Text>
+            <View style={styles.ecoBadge}>
+              <Text style={styles.ecoBadgeText}>🌿 Green Explorer</Text>
+            </View>
+          </View>
+          
+          <View style={styles.ecoCard}>
+            {/* Main Score */}
+            <View style={styles.ecoScoreMain}>
+              <View style={styles.ecoScoreCircle}>
+                <Text style={styles.ecoScoreNumber}>92</Text>
+                <Text style={styles.ecoScoreLabel}>ECO SCORE</Text>
+              </View>
+              <View style={styles.ecoSummary}>
+                <Text style={styles.ecoSummaryTitle}>This Month</Text>
+                <Text style={styles.ecoSummaryText}>15.2 kg CO₂ saved</Text>
+                <Text style={styles.ecoSummarySubtext}>vs. average traveler</Text>
+              </View>
+            </View>
+
+            <View style={styles.ecoDivider} />
+
+            {/* Stats Grid */}
+            <View style={styles.ecoStatsGrid}>
+              <View style={styles.ecoStatItem}>
+                <Ionicons name="walk" size={24} color="#10B981" />
+                <Text style={styles.ecoStatValue}>42 km</Text>
+                <Text style={styles.ecoStatLabel}>By foot</Text>
+              </View>
+              
+              <View style={styles.ecoStatItem}>
+                <Ionicons name="bicycle" size={24} color="#10B981" />
+                <Text style={styles.ecoStatValue}>18 km</Text>
+                <Text style={styles.ecoStatLabel}>By bike</Text>
+              </View>
+              
+              <View style={styles.ecoStatItem}>
+                <Ionicons name="train" size={24} color="#3B82F6" />
+                <Text style={styles.ecoStatValue}>85 km</Text>
+                <Text style={styles.ecoStatLabel}>Public transit</Text>
+              </View>
+              
+              <View style={styles.ecoStatItem}>
+                <Ionicons name="car" size={24} color="#F59E0B" />
+                <Text style={styles.ecoStatValue}>12 km</Text>
+                <Text style={styles.ecoStatLabel}>By car</Text>
+              </View>
+            </View>
+
+            <View style={styles.ecoDivider} />
+
+            {/* Galileo Tracking Info */}
+            <View style={styles.ecoTrackingInfo}>
+              <Ionicons name="navigate-circle" size={20} color="#A855F7" />
+              <Text style={styles.ecoTrackingText}>
+                Tracked via Galileo satellite positioning
+              </Text>
+            </View>
+          </View>
         </View>
 
         {/* Activity Section */}
@@ -83,35 +232,6 @@ export default function ProfileScreen() {
               <Ionicons name="chevron-forward" size={20} color="#CCC" />
             </View>
           </View>
-        </View>
-
-        {/* Settings */}
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Settings</Text>
-          <View style={styles.settingsCard}>
-            {settings.map((setting, index) => (
-              <View key={index}>
-                <TouchableOpacity style={styles.settingRow}>
-                  <View style={[styles.settingIcon, { backgroundColor: `${setting.color}20` }]}>
-                    <Ionicons name={setting.icon as any} size={20} color={setting.color} />
-                  </View>
-                  <Text style={styles.settingLabel}>{setting.label}</Text>
-                  <Ionicons name="chevron-forward" size={20} color="#CCC" />
-                </TouchableOpacity>
-                {index < settings.length - 1 && <View style={styles.dividerLine} />}
-              </View>
-            ))}
-          </View>
-        </View>
-
-        {/* Logout Button */}
-        <TouchableOpacity style={styles.logoutButton}>
-          <Ionicons name="log-out-outline" size={20} color="#EF4444" />
-          <Text style={styles.logoutText}>Log Out</Text>
-        </TouchableOpacity>
-
-        <View style={styles.footer}>
-          <Text style={styles.footerText}>Version 1.0.0</Text>
         </View>
       </ScrollView>
     </View>
@@ -162,7 +282,7 @@ const styles = StyleSheet.create({
     width: 100,
     height: 100,
     borderRadius: 50,
-    backgroundColor: '#A855F7',
+    backgroundColor: '#E5E7EB',
   },
   editAvatarButton: {
     position: 'absolute',
@@ -218,11 +338,21 @@ const styles = StyleSheet.create({
     marginTop: 16,
     paddingHorizontal: 16,
   },
+  sectionHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 12,
+  },
   sectionTitle: {
     fontSize: 18,
     fontWeight: '600',
     color: '#111',
-    marginBottom: 12,
+  },
+  seeAllText: {
+    fontSize: 14,
+    fontWeight: '600',
+    color: '#A855F7',
   },
   activityCard: {
     backgroundColor: 'white',
@@ -261,67 +391,206 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     color: '#111',
   },
-  settingsCard: {
-    backgroundColor: 'white',
-    borderRadius: 12,
-    padding: 4,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.05,
-    shadowRadius: 2,
-    elevation: 2,
-  },
-  settingRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingVertical: 12,
-    paddingHorizontal: 12,
-  },
-  settingIcon: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginRight: 12,
-  },
-  settingLabel: {
-    flex: 1,
-    fontSize: 16,
-    color: '#111',
-  },
   dividerLine: {
     height: 1,
     backgroundColor: '#F3F4F6',
-    marginLeft: 64,
+    marginVertical: 12,
+    marginLeft: 52,
   },
-  logoutButton: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
+  carouselContainer: {
+    paddingVertical: 12,
+    paddingRight: 16,
+  },
+  placeStack: {
+    width: 80,
+    height: 96,
+    marginRight: 16,
+    position: 'relative',
+  },
+  placeCard: {
+    width: 80,
+    height: 96,
+    borderRadius: 24,
+    overflow: 'hidden',
     backgroundColor: 'white',
-    marginHorizontal: 16,
-    marginTop: 16,
-    paddingVertical: 14,
+  },
+  placeCardBack: {
+    position: 'absolute',
+    transform: [{ translateX: -8 }, { translateY: -8 }, { rotate: '-5deg' }],
+    backgroundColor: '#E5E7EB',
+    zIndex: 1,
+  },
+  placeCardMiddle: {
+    position: 'absolute',
+    transform: [{ translateX: -4 }, { translateY: -4 }, { rotate: '-2deg' }],
+    backgroundColor: '#D1D5DB',
+    zIndex: 2,
+  },
+  placeCardFront: {
+    position: 'absolute',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.3,
+    shadowRadius: 8,
+    elevation: 8,
+    zIndex: 3,
+  },
+  placeImage: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    width: '100%',
+    height: '100%',
+  },
+  placeOverlay: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    backgroundColor: 'rgba(0, 0, 0, 0.4)',
+  },
+  placeContent: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingHorizontal: 8,
+  },
+  placeLocationText: {
+    fontSize: 11,
+    fontWeight: '700',
+    color: 'white',
+    textAlign: 'center',
+  },
+  photoCountBadge: {
+    position: 'absolute',
+    bottom: 8,
+    right: 8,
+    backgroundColor: 'rgba(0, 0, 0, 0.6)',
+    paddingHorizontal: 8,
+    paddingVertical: 4,
     borderRadius: 12,
-    gap: 8,
+  },
+  photoCountText: {
+    fontSize: 10,
+    fontWeight: '700',
+    color: 'white',
+  },
+  ecoHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 12,
+  },
+  ecoBadge: {
+    backgroundColor: '#ECFDF5',
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+    borderRadius: 16,
+  },
+  ecoBadgeText: {
+    fontSize: 12,
+    fontWeight: '600',
+    color: '#10B981',
+  },
+  ecoCard: {
+    backgroundColor: 'white',
+    borderRadius: 16,
+    padding: 20,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 1 },
     shadowOpacity: 0.05,
     shadowRadius: 2,
     elevation: 2,
   },
-  logoutText: {
-    fontSize: 16,
-    fontWeight: '600',
-    color: '#EF4444',
-  },
-  footer: {
+  ecoScoreMain: {
+    flexDirection: 'row',
     alignItems: 'center',
-    paddingVertical: 24,
+    gap: 20,
+    marginBottom: 16,
   },
-  footerText: {
+  ecoScoreCircle: {
+    width: 100,
+    height: 100,
+    borderRadius: 50,
+    backgroundColor: '#ECFDF5',
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderWidth: 4,
+    borderColor: '#10B981',
+  },
+  ecoScoreNumber: {
+    fontSize: 32,
+    fontWeight: '900',
+    color: '#10B981',
+  },
+  ecoScoreLabel: {
+    fontSize: 10,
+    fontWeight: '600',
+    color: '#059669',
+    marginTop: 2,
+  },
+  ecoSummary: {
+    flex: 1,
+  },
+  ecoSummaryTitle: {
+    fontSize: 14,
+    fontWeight: '600',
+    color: '#6B7280',
+    marginBottom: 4,
+  },
+  ecoSummaryText: {
+    fontSize: 20,
+    fontWeight: '700',
+    color: '#111827',
+    marginBottom: 2,
+  },
+  ecoSummarySubtext: {
     fontSize: 12,
-    color: '#999',
+    color: '#9CA3AF',
+  },
+  ecoDivider: {
+    height: 1,
+    backgroundColor: '#F3F4F6',
+    marginVertical: 16,
+  },
+  ecoStatsGrid: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginBottom: 16,
+  },
+  ecoStatItem: {
+    alignItems: 'center',
+    flex: 1,
+  },
+  ecoStatValue: {
+    fontSize: 16,
+    fontWeight: '700',
+    color: '#111827',
+    marginTop: 8,
+  },
+  ecoStatLabel: {
+    fontSize: 11,
+    color: '#6B7280',
+    marginTop: 2,
+    textAlign: 'center',
+  },
+  ecoTrackingInfo: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 8,
+    paddingVertical: 8,
+  },
+  ecoTrackingText: {
+    fontSize: 12,
+    color: '#A855F7',
+    fontWeight: '500',
   },
 });
