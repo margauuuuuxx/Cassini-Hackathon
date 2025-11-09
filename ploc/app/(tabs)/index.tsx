@@ -85,7 +85,10 @@ export default function HomeScreen() {
       <View style={styles.header}>
         <View style={styles.headerTop}>
           <View style={styles.profileSection}>
-            <View style={styles.avatar} />
+            <Image 
+              source={require('../../assets/images/profile_pic/profile.jpg')}
+              style={styles.avatar}
+            />
             <View>
               <Text style={styles.username}>@margauuuuux</Text>
               <Text style={styles.pictureCount}>42 pictures</Text>
@@ -184,6 +187,7 @@ const styles = StyleSheet.create({
     height: 40,
     borderRadius: 20,
     backgroundColor: '#A855F7',
+    resizeMode: 'cover',
   },
   username: {
     fontSize: 16,

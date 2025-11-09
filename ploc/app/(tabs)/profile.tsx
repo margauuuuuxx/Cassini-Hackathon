@@ -11,6 +11,49 @@ export default function ProfileScreen() {
     { label: 'Places', value: '28' },
   ];
 
+  const topPlaces = [
+    { 
+      location: 'Café Belga', 
+      count: 63, 
+      image: 'file:///Users/margauxloncour/Desktop/Cassini-Hackathon/images/IMG_0521.jpg' 
+    },
+    { 
+      location: 'BeCentral', 
+      count: 8, 
+      image: 'https://images.unsplash.com/photo-1559113202-c916b8e44373?w=400' 
+    },
+    { 
+      location: 'Atomium', 
+      count: 5, 
+      image: 'https://images.unsplash.com/photo-1583422409516-2895a77efded?w=400' 
+    },
+    { 
+      location: 'Manneken Pis', 
+      count: 4, 
+      image: 'https://images.unsplash.com/photo-1555604241-c6f0de5ddc0b?w=400' 
+    },
+    { 
+      location: 'Royal Palace', 
+      count: 6, 
+      image: 'https://images.unsplash.com/photo-1513581166391-887a96ddeafd?w=400' 
+    },
+    { 
+      location: 'Parc du Cinquantenaire', 
+      count: 7, 
+      image: 'https://images.unsplash.com/photo-1568218394632-c9e99a32d3fc?w=400' 
+    },
+    { 
+      location: 'Mont des Arts', 
+      count: 3, 
+      image: 'https://images.unsplash.com/photo-1543780508-638ccaff0e6e?w=400' 
+    },
+    { 
+      location: 'Sablon', 
+      count: 4, 
+      image: 'https://images.unsplash.com/photo-1499856871958-5b9627545d1a?w=400' 
+    },
+  ];
+
   return (
     <View style={styles.container}>
       {/* Header */}
@@ -28,7 +71,11 @@ export default function ProfileScreen() {
         {/* Profile Info */}
         <View style={styles.profileSection}>
           <View style={styles.avatarContainer}>
-            <View style={styles.avatar} />
+            <Image 
+              source={require('@/assets/images/profile_pic/profile.jpg')}
+              style={styles.avatar}
+              resizeMode="cover"
+            />
             <TouchableOpacity style={styles.editAvatarButton}>
               <Ionicons name="camera" size={18} color="#FFF" />
             </TouchableOpacity>
@@ -54,19 +101,18 @@ export default function ProfileScreen() {
 
         {/* Top Places Section */}
         <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Top Places</Text>
+          <View style={styles.sectionHeader}>
+            <Text style={styles.sectionTitle}>Top Places</Text>
+            <TouchableOpacity>
+              <Text style={styles.seeAllText}>See All</Text>
+            </TouchableOpacity>
+          </View>
           <ScrollView 
             horizontal 
             showsHorizontalScrollIndicator={false}
             contentContainerStyle={styles.carouselContainer}
           >
-            {[
-              { 
-                location: 'BeCentral', 
-                count: 3, 
-                image: 'file:///Users/margauxloncour/Desktop/Cassini-Hackathon/images/IMG_0521.jpg' 
-              }
-            ].map((place, index) => (
+            {topPlaces.map((place, index) => (
               <View key={index} style={styles.placeStack}>
                 {/* Back card */}
                 {place.count > 2 && <View style={[styles.placeCard, styles.placeCardBack]} />}
@@ -187,8 +233,6 @@ export default function ProfileScreen() {
             </View>
           </View>
         </View>
-
-
       </ScrollView>
     </View>
   );
@@ -238,7 +282,7 @@ const styles = StyleSheet.create({
     width: 100,
     height: 100,
     borderRadius: 50,
-    backgroundColor: '#A855F7',
+    backgroundColor: '#E5E7EB',
   },
   editAvatarButton: {
     position: 'absolute',
@@ -294,11 +338,21 @@ const styles = StyleSheet.create({
     marginTop: 16,
     paddingHorizontal: 16,
   },
+  sectionHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 12,
+  },
   sectionTitle: {
     fontSize: 18,
     fontWeight: '600',
     color: '#111',
-    marginBottom: 12,
+  },
+  seeAllText: {
+    fontSize: 14,
+    fontWeight: '600',
+    color: '#A855F7',
   },
   activityCard: {
     backgroundColor: 'white',
@@ -337,20 +391,20 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     color: '#111',
   },
-
   dividerLine: {
     height: 1,
     backgroundColor: '#F3F4F6',
-    marginLeft: 64,
+    marginVertical: 12,
+    marginLeft: 52,
   },
   carouselContainer: {
     paddingVertical: 12,
-    gap: 12,
+    paddingRight: 16,
   },
   placeStack: {
     width: 80,
     height: 96,
-    marginRight: 20,
+    marginRight: 16,
     position: 'relative',
   },
   placeCard: {
@@ -406,13 +460,13 @@ const styles = StyleSheet.create({
     bottom: 0,
     justifyContent: 'center',
     alignItems: 'center',
+    paddingHorizontal: 8,
   },
   placeLocationText: {
-    fontSize: 12,
+    fontSize: 11,
     fontWeight: '700',
     color: 'white',
     textAlign: 'center',
-    paddingHorizontal: 8,
   },
   photoCountBadge: {
     position: 'absolute',
